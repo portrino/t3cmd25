@@ -1,0 +1,36 @@
+name: renovate
+
+on:
+  push:
+  schedule:
+    - cron: "@hourly"
+
+jobs:
+  renovate:
+    runs-on: ubuntu-latest
+    container: ghcr.io/renovatebot/renovate:39
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          name: forgejo-renovate
+          known_hosts: ${{ secrets.KNOWN_HOSTS }}
+          config: |
+            Host git.portrino.de
+              HostName git.portrino.de
+              User git
+              Port 22
+              IdentityFile ~/.ssh/forgejo-renovate
+
+      - name: Run self-hosted Renovate Bot
+        run: renovate
+        env:
+          GITHUB_COM_TOKEN: ${{ secrets.PAT_PORTRINO_GITHUB_COM_TOKEN }}
+          LOG_LEVEL: "debug"
+          RENOVATE_TOKEN: ${{ secrets.RENOVATE_TOKEN }}
+          RENOVATE_CONFIG_FILE: /workspace/renovate/renovate-config/config.js
+          RENOVATE_PACKAGIST_GIT_PORTRINO_DE_PASSWORD: ${{ secrets.RENOVATE_TOKEN }}

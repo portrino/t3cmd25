@@ -1,0 +1,41 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+        "local>renovate/renovate-config"
+    ],
+    "env": {
+        "COMPOSER_WITH_ALL_DEPENDENCIES": "1"
+    },
+    "packageRules": [
+        {
+            "automerge": true,
+            "matchDepTypes": [
+                "require"
+            ],
+            "matchPackageNames": [
+                "cweagans/composer-patches",
+                "helhum/typo3-console"
+            ],
+            "matchUpdateTypes": [
+                "minor",
+                "patch"
+            ]
+        },
+        {
+            "automerge": true,
+            "extends": [
+                ":disableMajorUpdates"
+            ],
+            "groupName": "TYPO3 CMS",
+            "labels": [
+                "typo3"
+            ],
+            "matchPackageNames": [
+                "typo3/cms-**",
+                "!typo3/cms-cli",
+                "!typo3/cms-composer-installers"
+            ],
+            "prPriority": 5
+        }
+    ]
+}

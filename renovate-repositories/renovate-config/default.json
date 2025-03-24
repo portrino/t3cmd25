@@ -1,0 +1,36 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+        "config:recommended",
+        ":separatePatchReleases"
+    ],
+    "baseBranches": [
+        "master"
+    ],
+    "commitMessagePrefix": "[TASK] ",
+    "commitMessageTopic": "{{depName}}",
+    "commitMessageExtra": " ({{{displayFrom}}} => {{{displayTo}}})",
+    "enabledManagers": [
+        "composer"
+    ],
+    "forkProcessing": "enabled",
+    "hostRules": [
+        {
+            "hostType": "packagist",
+            "matchHost": "git.portrino.de",
+            "username": "renovate"
+        }
+    ],
+    "packageRules": [
+        {
+            "automerge": true,
+            "matchDepTypes": [
+                "devDependencies",
+                "require-dev"
+            ]
+        }
+    ],
+    "platformAutomerge": true,
+    "prConcurrentLimit": 20,
+    "rangeStrategy": "update-lockfile"
+}
